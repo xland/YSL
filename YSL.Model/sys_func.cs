@@ -1,15 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace YSL.Model
 {
     /// <summary>
-    /// 部门
+    /// 系统权限
     /// </summary>
-    public class hrm_department
+    public class sys_func
     {
         /// <summary>
-        /// 部门ID
+        /// 功能ID
         /// </summary>
         [Key]
         public string id
@@ -18,41 +18,41 @@ namespace YSL.Model
             set;
         }
         /// <summary>
-        /// 部门名称
+        /// 功能名称
         /// </summary>
-        public string department_name
+        public string func_name
         {
             get;
             set;
         }
         /// <summary>
-        /// 部门排序
+        /// 功能排序
         /// </summary>
-        public int department_order
+        public int order_num
         {
             get;
             set;
         }
         /// <summary>
-        /// 部门描述
+        /// 父级功能ID
+        /// </summary>
+        public int pid
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// 功能路径
+        /// </summary>
+        public string path
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// 功能描述
         /// </summary>
         public string des
-        {
-            get;
-            set;
-        }
-        /// <summary>
-        /// 上级部门ID
-        /// </summary>
-        public string pid
-        {
-            get;
-            set;
-        }
-        /// <summary>
-        /// 部门电话、分机号
-        /// </summary>
-        public string telphone
         {
             get;
             set;

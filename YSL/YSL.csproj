@@ -26,5 +26,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\jquery\" />
+  </ItemGroup>
 
 </Project>

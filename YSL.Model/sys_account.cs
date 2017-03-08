@@ -1,15 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace YSL.Model
 {
     /// <summary>
-    /// 部门
+    /// 系统帐号
     /// </summary>
-    public class hrm_department
+    public class sys_account
     {
         /// <summary>
-        /// 部门ID
+        /// 帐号ID
         /// </summary>
         [Key]
         public string id
@@ -18,41 +18,33 @@ namespace YSL.Model
             set;
         }
         /// <summary>
-        /// 部门名称
+        /// 登录名
         /// </summary>
-        public string department_name
+        public string account_name
         {
             get;
             set;
         }
         /// <summary>
-        /// 部门排序
+        /// 登录密码
         /// </summary>
-        public int department_order
+        public string pass_word
         {
             get;
             set;
         }
         /// <summary>
-        /// 部门描述
+        /// 员工ID
         /// </summary>
-        public string des
+        public string employee_id
         {
             get;
             set;
         }
         /// <summary>
-        /// 上级部门ID
+        /// 帐号创建时间
         /// </summary>
-        public string pid
-        {
-            get;
-            set;
-        }
-        /// <summary>
-        /// 部门电话、分机号
-        /// </summary>
-        public string telphone
+        public DateTime add_time
         {
             get;
             set;

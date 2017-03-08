@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace YSL.Model
 {
     /// <summary>
-    /// 部门员工关系实体
+    /// 角色权限关系实体
     /// </summary>
-    public class HrmDepartmentEmployee
+    public class sys_role_func
     {
         /// <summary>
         /// 角色权限关系实体ID
@@ -20,17 +18,17 @@ namespace YSL.Model
             set;
         }
         /// <summary>
-        /// 部门ID
+        /// 角色ID
         /// </summary>
-        public string department_id
+        public string role_id
         {
             get;
             set;
         }
         /// <summary>
-        /// 员工ID
+        /// 权限ID
         /// </summary>
-        public string employee_id
+        public string func_id
         {
             get;
             set;

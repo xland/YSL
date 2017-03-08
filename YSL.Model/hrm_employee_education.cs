@@ -1,15 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace YSL.Model
 {
     /// <summary>
-    /// 部门
+    /// 员工教育经历
     /// </summary>
-    public class hrm_department
+    public class hrm_employee_education
     {
         /// <summary>
-        /// 部门ID
+        /// 教育经历ID
         /// </summary>
         [Key]
         public string id
@@ -18,41 +18,33 @@ namespace YSL.Model
             set;
         }
         /// <summary>
-        /// 部门名称
+        /// 开始时间
         /// </summary>
-        public string department_name
+        public DateTime start_time
         {
             get;
             set;
         }
         /// <summary>
-        /// 部门排序
+        /// 结束时间
         /// </summary>
-        public int department_order
+        public DateTime end_time
         {
             get;
             set;
         }
         /// <summary>
-        /// 部门描述
+        /// 学校名称
         /// </summary>
-        public string des
+        public string school_name
         {
             get;
             set;
         }
         /// <summary>
-        /// 上级部门ID
+        /// 学位
         /// </summary>
-        public string pid
-        {
-            get;
-            set;
-        }
-        /// <summary>
-        /// 部门电话、分机号
-        /// </summary>
-        public string telphone
+        public string degree
         {
             get;
             set;
