@@ -11,11 +11,11 @@ namespace YSL.Controllers
     {
         public IActionResult Index()
         {
-            var obj = new hrm_department();
-            obj.id = Guid.NewGuid().ToString("N");
-            var db = YSLContextFactory.Create();
-            db.hrm_department.Add(obj);
-            db.SaveChanges();
+            //var obj = new hrm_department();
+            //obj.id = Guid.NewGuid().ToString("N");
+            //var db = YSLContextFactory.Create();
+            //db.hrm_department.Add(obj);
+            //db.SaveChanges();
             return View();
         }
 
