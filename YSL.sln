@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YSL", "YSL\YSL.csproj", "{0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YSL.Model", "YSL.Model\YSL.Model.csproj", "{A6851A53-C3BD-46E8-A1F3-DB2C0993B49D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YSL.Common", "YSL.Common\YSL.Common.csproj", "{C4B9239C-0B97-4D1A-8594-35BD2EE519DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{A6851A53-C3BD-46E8-A1F3-DB2C0993B49D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6851A53-C3BD-46E8-A1F3-DB2C0993B49D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6851A53-C3BD-46E8-A1F3-DB2C0993B49D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4B9239C-0B97-4D1A-8594-35BD2EE519DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4B9239C-0B97-4D1A-8594-35BD2EE519DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4B9239C-0B97-4D1A-8594-35BD2EE519DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4B9239C-0B97-4D1A-8594-35BD2EE519DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -9,6 +9,10 @@ namespace YSL.Model
 {
     public class YSLContextFactory
     {
+        /// <summary>
+        /// 创建数据库操作类
+        /// </summary>
+        /// <returns></returns>
         public static YSLContext Create()
         {
             var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
