@@ -57,5 +57,13 @@ namespace YSL.Model
             get;
             set;
         }
+        /// <summary>
+        /// 部门负责人
+        /// </summary>
+        public string department_leader_account_id
+        {
+            get;
+            set;
+        }
     }
 }
