@@ -73,5 +73,21 @@ namespace YSL.Model
             get;
             set;
         }
+        /// <summary>
+        /// 是否已存在异常
+        /// </summary>
+        public int is_error
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// 是否是其他类型的物资
+        /// </summary>
+        public int is_other
+        {
+            get;
+            set;
+        }
     }
 }
