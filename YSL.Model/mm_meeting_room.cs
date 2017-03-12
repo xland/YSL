@@ -41,5 +41,13 @@ namespace YSL.Model
             get;
             set;
         }
+        /// <summary>
+        /// 物资基类ID
+        /// </summary>
+        public string mm_base_id
+        {
+            get;
+            set;
+        }
     }
 }

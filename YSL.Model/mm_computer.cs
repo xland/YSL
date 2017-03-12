@@ -98,17 +98,9 @@ namespace YSL.Model
             set;
         }
         /// <summary>
-        /// 描述
+        /// 物资基类ID
         /// </summary>
-        public string des
-        {
-            get;
-            set;
-        }
-        /// <summary>
-        /// 员工ID
-        /// </summary>
-        public string employee_id
+        public string mm_base_id
         {
             get;
             set;
