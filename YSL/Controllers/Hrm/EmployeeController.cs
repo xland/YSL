@@ -9,6 +9,9 @@ using YSL.Common;
 
 namespace YSL.Controllers.Hrm
 {
+    /// <summary>
+    /// Ô±¹¤¿ØÖÆÆ÷
+    /// </summary>
     [Route("Hrm/[controller]")]
     public class EmployeeController : Controller
     {
@@ -26,7 +29,7 @@ namespace YSL.Controllers.Hrm
                 employee.id = Guid.NewGuid().ToString("N");
                 addFlag = true;
             }
-            var db = YSLContextFactory.Create();
+            var db = new YSLContext();
             try
             {
                 db.Entry(employee).State = addFlag ? EntityState.Added : EntityState.Modified;
@@ -50,7 +53,7 @@ namespace YSL.Controllers.Hrm
         public IActionResult DelAccount(string id)
         {
             var target = new hrm_employee() { id = id };
-            var db = YSLContextFactory.Create();
+            var db = new YSLContext();
             try
             {
                 db.hrm_employee.Attach(target);
@@ -74,7 +77,7 @@ namespace YSL.Controllers.Hrm
         /// <returns></returns>
         public IActionResult GetEmployeeById(string id)
         {
-            var db = YSLContextFactory.Create();
+            var db = new YSLContext();
             hrm_employee result;
             try
             {

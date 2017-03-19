@@ -27,6 +27,7 @@ namespace YSL
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
             services.AddSession();
             // Add framework services.
             services.AddMvc();
@@ -47,6 +48,9 @@ namespace YSL
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseCors(builder =>builder.WithOrigins("http://localhost:8080", "http://www.your_domain.com").AllowAnyHeader().AllowAnyMethod());
+
 
             app.UseStaticFiles();
 

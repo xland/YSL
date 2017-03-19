@@ -11,6 +11,7 @@ namespace YSL.Controllers
     {
         public IActionResult Index()
         {
+            var id = Guid.NewGuid().ToString("N");
             //var obj = new hrm_department();
             //obj.id = Guid.NewGuid().ToString("N");
             //var db = YSLContextFactory.Create();

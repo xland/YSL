@@ -1,18 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System;
-using MySQL.Data.EntityFrameworkCore;
-
+using Microsoft.Extensions.Configuration;
 
 namespace YSL.Model
 {
     public class YSLContext : DbContext
     {
-        public YSLContext(DbContextOptions<YSLContext> options) : base(options)
-        {
-
-        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            var builder = new ConfigurationBuilder();
+            builder.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+            var configuration = builder.Build();
+            string connectionString = configuration.GetConnectionString("mysql_conn");
+            optionsBuilder.UseMySql(connectionString);
         }
         #region Sys
         /// <summary>
@@ -77,6 +78,14 @@ namespace YSL.Model
         ///// 部门员工关系实体
         ///// </summary>
         public DbSet<hrm_department_employee> hrm_department_employee
+        {
+            get;
+            set;
+        }
+        ///// <summary>
+        ///// 员工培训
+        ///// </summary>
+        public DbSet<hrm_train> hrm_train
         {
             get;
             set;

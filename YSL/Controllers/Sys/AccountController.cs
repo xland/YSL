@@ -21,7 +21,7 @@ namespace YSL.Controllers.Sys
             account.pass_word = Encrypt.getMD5Code(account.pass_word);
             sys_account cur_user;
             List<string> funcIds;
-            var db = YSLContextFactory.Create();
+            var db = new YSLContext();
             try
             {
 
@@ -56,7 +56,7 @@ namespace YSL.Controllers.Sys
                 account.id = Guid.NewGuid().ToString("N");
                 addFlag = true;
             }
-            var db = YSLContextFactory.Create();
+            var db = new YSLContext();
             try
             {
                 db.Entry(account).State = addFlag ? EntityState.Added : EntityState.Modified;
@@ -80,7 +80,7 @@ namespace YSL.Controllers.Sys
         public JsonResult DelAccount(string id)
         {
             var target = new sys_account() { id = id };
-            var db = YSLContextFactory.Create();
+            var db = new YSLContext();
             try
             {
                 db.sys_account.Attach(target);
@@ -106,7 +106,7 @@ namespace YSL.Controllers.Sys
         public JsonResult AddAccountRole(sys_account_role obj)
         {
             obj.id = Guid.NewGuid().ToString("N");
-            var db = YSLContextFactory.Create();
+            var db = new YSLContext();
             try
             {
                 db.sys_account_role.Add(obj);
@@ -130,7 +130,7 @@ namespace YSL.Controllers.Sys
         /// <returns></returns>
         public JsonResult DelRoleFunc(sys_account_role obj)
         {
-            var db = YSLContextFactory.Create();
+            var db = new YSLContext();
             try
             {
                 db.sys_account_role.Attach(obj);

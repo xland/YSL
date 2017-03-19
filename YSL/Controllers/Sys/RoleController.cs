@@ -18,7 +18,7 @@ namespace YSL.Controllers.Sys
         public JsonResult GetAllRole()
         {
             List<sys_role> roles;
-            var db = YSLContextFactory.Create();
+            var db = new YSLContext();
             try
             {
                 roles = db.sys_role.ToList();
@@ -43,7 +43,7 @@ namespace YSL.Controllers.Sys
         public JsonResult AddRoleFunc(sys_role_func obj)
         {
             obj.id = Guid.NewGuid().ToString("N");
-            var db = YSLContextFactory.Create();
+            var db = new YSLContext();
             try
             {
                 db.sys_role_func.Add(obj);
@@ -67,7 +67,7 @@ namespace YSL.Controllers.Sys
         /// <returns></returns>
         public JsonResult DelRoleFunc(sys_role_func obj)
         {
-            var db = YSLContextFactory.Create();
+            var db = new YSLContext();
             try
             {
                 db.sys_role_func.Attach(obj);
@@ -91,7 +91,7 @@ namespace YSL.Controllers.Sys
         /// <returns></returns>
         public JsonResult SaveAccount(sys_role role)
         {
-            var db = YSLContextFactory.Create();
+            var db = new YSLContext();
             var addFlag = false;
             if (string.IsNullOrEmpty(role.id))
             {
@@ -121,7 +121,7 @@ namespace YSL.Controllers.Sys
         public JsonResult DelAccount(string id)
         {
             var target = new sys_account() { id = id };
-            var db = YSLContextFactory.Create();
+            var db = new YSLContext();
             try
             {
                 db.sys_account.Attach(target);

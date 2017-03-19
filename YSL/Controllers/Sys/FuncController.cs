@@ -18,12 +18,12 @@ namespace YSL.Controllers.Sys
         public IActionResult GetAllFunc()
         {
             List<sys_func> data;
-            var db = YSLContextFactory.Create();
+            var db = new YSLContext();
             try
             {
                 data = db.sys_func.ToList();
             }
-            catch
+            catch(Exception ex)
             {
                 return ResultToJson.ToError("获取所有系统权限异常！");
             }
@@ -41,7 +41,7 @@ namespace YSL.Controllers.Sys
         /// <returns></returns>
         public JsonResult SaveFunc(sys_func obj)
         {
-            var db = YSLContextFactory.Create();
+            var db = new YSLContext();
             var addFlag = false;
             if (string.IsNullOrEmpty(obj.id))
             {
@@ -71,7 +71,7 @@ namespace YSL.Controllers.Sys
         public JsonResult DelFunc(string id)
         {
             var target = new sys_func() { id = id };
-            var db = YSLContextFactory.Create();
+            var db = new YSLContext();
             try
             {
                 db.sys_func.Attach(target);

@@ -36,7 +36,7 @@ namespace YSL.Model
         /// <summary>
         /// 父级功能ID
         /// </summary>
-        public int pid
+        public string pid
         {
             get;
             set;
