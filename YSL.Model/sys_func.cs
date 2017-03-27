@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace YSL.Model
 {
@@ -53,6 +55,12 @@ namespace YSL.Model
         /// 功能描述
         /// </summary>
         public string des
+        {
+            get;
+            set;
+        }
+        [NotMapped]
+        public List<sys_func> children
         {
             get;
             set;

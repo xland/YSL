@@ -29,8 +29,10 @@ namespace YSL
         {
             
             services.AddSession();
+            services.AddMemoryCache();
             // Add framework services.
             services.AddMvc();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,7 +51,7 @@ namespace YSL
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseCors(builder =>builder.WithOrigins("http://localhost:8080", "http://www.your_domain.com").AllowAnyHeader().AllowAnyMethod());
+            app.UseCors(builder =>builder.WithOrigins("http://localhost:8000", "http://www.your_domain.com").AllowAnyHeader().AllowAnyMethod());
 
 
             app.UseStaticFiles();
