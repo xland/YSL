@@ -75,9 +75,9 @@ namespace YSL.Controllers.Sys
             var db = new YSLContext();
             try
             {
-                data = db.sys_func.ToList();
+                data = db.sys_func.OrderBy(m=> m.order_num).ToList();
             }
-            catch (Exception ex)
+            catch
             {
                 return ResultToJson.ToError("获取所有系统权限异常！");
             }

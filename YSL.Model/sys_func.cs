@@ -59,6 +59,14 @@ namespace YSL.Model
             get;
             set;
         }
+        /// <summary>
+        /// 权限图标
+        /// </summary>
+        public string icon
+        {
+            get;
+            set;
+        }
         [NotMapped]
         public List<sys_func> children
         {
