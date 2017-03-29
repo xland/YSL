@@ -9,9 +9,34 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YSL.Controllers.Sys
 {
-    [Route("Sys/[controller]")]
     public class AccountController : Controller
     {
+        /// <summary>
+        /// 获取帐号信息
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public JsonResult GetAccountByPage([FromBody]PageDataRequestModel page)
+        {
+            List<sys_account> data;
+            int rowCount = 0;
+            var db = new YSLContext();
+            try
+            {
+                data = db.sys_account.Skip(page.page_index * page.page_size).Take(page.page_size).ToList();
+                rowCount = db.sys_account.Count();
+            }
+            catch
+            {
+                return ResultToJson.ToError("获取所有系统权限异常！");
+            }
+            finally
+            {
+                db.Dispose();
+            }
+            var result = ResultToJson.ToSuccess(rowCount,data);
+            return result;
+        }
         /// <summary>
         /// 系统登录
         /// </summary>

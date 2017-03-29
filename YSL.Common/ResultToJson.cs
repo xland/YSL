@@ -31,5 +31,17 @@ namespace YSL.Common
             var obj = new { Msg = msg, Code = code, Data = data };
             return new JsonResult(obj);
         }
+        /// <summary>
+        /// 创建正常的JsonResult,带rowCount的，用于分页
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="msg"></param>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public static JsonResult ToSuccess(int rowCount,object data = null, string msg = "", int code = 0)
+        {
+            var obj = new { Msg = msg, Code = code, Data = data,RowCount = rowCount };
+            return new JsonResult(obj);
+        }
     }
 }
