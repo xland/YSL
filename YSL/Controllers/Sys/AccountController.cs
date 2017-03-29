@@ -23,7 +23,7 @@ namespace YSL.Controllers.Sys
             var db = new YSLContext();
             try
             {
-                data = db.sys_account.Skip(page.page_index * page.page_size).Take(page.page_size).ToList();
+                data = db.sys_account.OrderByDescending(m=>m.add_time).Skip(page.page_index * page.page_size).Take(page.page_size).ToList();
                 rowCount = db.sys_account.Count();
             }
             catch
@@ -72,13 +72,14 @@ namespace YSL.Controllers.Sys
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public JsonResult SaveAccount(sys_account account)
+        public JsonResult SaveAccount([FromBody]sys_account account)
         {
             account.pass_word = Encrypt.getMD5Code(account.pass_word);
             var addFlag = false;
             if (string.IsNullOrEmpty(account.id))
             {
                 account.id = Guid.NewGuid().ToString("N");
+                account.add_time = DateTime.Now;
                 addFlag = true;
             }
             var db = new YSLContext();
