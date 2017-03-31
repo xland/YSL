@@ -21,7 +21,7 @@ namespace YSL.Controllers.Sys
             var db = new YSLContext();
             try
             {
-                roles = db.sys_role.ToList();
+                roles = db.sys_role.OrderBy(m=>m.order_num).ToList();
             }
             catch
             {
