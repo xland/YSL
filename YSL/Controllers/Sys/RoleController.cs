@@ -40,7 +40,7 @@ namespace YSL.Controllers.Sys
         /// <param name="roleId"></param>
         /// <param name="funcId"></param>
         /// <returns></returns>
-        public JsonResult AddRoleFunc(sys_role_func obj)
+        public JsonResult AddRoleFunc([FromBody]sys_role_func obj)
         {
             obj.id = Guid.NewGuid().ToString("N");
             var db = new YSLContext();
@@ -65,7 +65,7 @@ namespace YSL.Controllers.Sys
         /// <param name="roleId"></param>
         /// <param name="funcId"></param>
         /// <returns></returns>
-        public JsonResult DelRoleFunc(sys_role_func obj)
+        public JsonResult DelRoleFunc([FromBody]sys_role_func obj)
         {
             var db = new YSLContext();
             try
@@ -89,7 +89,7 @@ namespace YSL.Controllers.Sys
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public JsonResult SaveAccount(sys_role role)
+        public JsonResult SaveRole([FromBody]sys_role role)
         {
             var db = new YSLContext();
             var addFlag = false;
@@ -114,18 +114,41 @@ namespace YSL.Controllers.Sys
             return ResultToJson.ToSuccess();
         }
         /// <summary>
+        /// 查找系统中是否已存在相同名称的角色
+        /// </summary>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public JsonResult CheckRoleName([FromBody] sys_role target)
+        {
+            var result = true;
+            var db = new YSLContext();
+            try
+            {
+                var count = db.sys_role.Where(m => m.role_name == target.role_name).Count();
+                result = count > 0;
+            }
+            catch
+            {
+                return ResultToJson.ToError("查找系统中是否已存在相同的角色失败！");
+            }
+            finally
+            {
+                db.Dispose();
+            }
+            return ResultToJson.ToSuccess(result);
+        }
+        /// <summary>
         /// 删除角色；物理删除
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public JsonResult DelAccount(string id)
+        public JsonResult DelRole([FromBody] sys_role target)
         {
-            var target = new sys_account() { id = id };
             var db = new YSLContext();
             try
             {
-                db.sys_account.Attach(target);
-                db.sys_account.Remove(target);
+                db.sys_role.Attach(target);
+                db.sys_role.Remove(target);
                 db.SaveChanges();
             }
             catch

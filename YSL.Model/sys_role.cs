@@ -33,6 +33,7 @@ namespace YSL.Model
             get;
             set;
         }
+
         /// <summary>
         /// 角色描述
         /// </summary>
