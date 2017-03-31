@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using YSL.Model;
@@ -16,16 +17,20 @@ namespace YSL.Controllers.Sys
         /// </summary>
         /// <param name="page"></param>
         /// <returns></returns>
-        public JsonResult GetAccountByPage([FromBody]PageDataRequestModel page)
+        public JsonResult GetAccountByPage([FromBody]JObject form)
         {
+            var page = form["pager"].ToObject<PageDataRequestModel>();
+            var searchTxt = form["searchTxt"]==null?"":form["searchTxt"].ToString();
             List<sys_account> data;
             int rowCount = 0;
             var db = new YSLContext();
             try
             {
                 var query = db.sys_account
-                    .OrderByDescending(m => m.add_time)
-                    .Skip(page.page_index * page.page_size)
+                    .Where(m => m.account_name.Contains(searchTxt))
+                    .OrderByDescending(m => m.add_time);
+                rowCount = query.Count();
+                query.Skip(page.page_index * page.page_size)
                     .Take(page.page_size)
                     .Select(m => new sys_account
                     {
@@ -35,7 +40,6 @@ namespace YSL.Controllers.Sys
                         employee_id = m.employee_id
                     });
                 data = query.ToList();
-                rowCount = db.sys_account.Count();
             }
             catch
             {
