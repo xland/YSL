@@ -23,7 +23,18 @@ namespace YSL.Controllers.Sys
             var db = new YSLContext();
             try
             {
-                data = db.sys_account.OrderByDescending(m=>m.add_time).Skip(page.page_index * page.page_size).Take(page.page_size).ToList();
+                var query = db.sys_account
+                    .OrderByDescending(m => m.add_time)
+                    .Skip(page.page_index * page.page_size)
+                    .Take(page.page_size)
+                    .Select(m => new sys_account
+                    {
+                        id = m.id,
+                        account_name = m.account_name,
+                        add_time = m.add_time,
+                        employee_id = m.employee_id
+                    });
+                data = query.ToList();
                 rowCount = db.sys_account.Count();
             }
             catch
@@ -99,13 +110,36 @@ namespace YSL.Controllers.Sys
             return ResultToJson.ToSuccess();
         }
         /// <summary>
+        /// 查找系统中是否已存在相同的账户
+        /// </summary>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public JsonResult CheckAccountName([FromBody] sys_account target)
+        {
+            var result = true;
+            var db = new YSLContext();
+            try
+            {
+                var count = db.sys_account.Where(m => m.account_name == target.account_name).Count();
+                result = count > 0;
+            }
+            catch
+            {
+                return ResultToJson.ToError("查找系统中是否已存在相同的账户失败！");
+            }
+            finally
+            {
+                db.Dispose();
+            }
+            return ResultToJson.ToSuccess(result);
+        }
+        /// <summary>
         /// 删除账户；物理删除
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public JsonResult DelAccount(string id)
+        public JsonResult DelAccount([FromBody]sys_account target)
         {
-            var target = new sys_account() { id = id };
             var db = new YSLContext();
             try
             {

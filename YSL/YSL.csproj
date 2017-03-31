@@ -39,7 +39,8 @@
   <ItemGroup>
     <Folder Include="Controllers\Hrm\" />
     <Folder Include="Controllers\Sys\" />
-    <Folder Include="wwwroot\lib\jquery\" />
+    <Folder Include="wwwroot\images\" />
+    <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 
 </Project>
