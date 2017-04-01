@@ -144,6 +144,7 @@ namespace YSL.Controllers.Sys
         /// <returns></returns>
         public JsonResult DelAccount([FromBody]sys_account target)
         {
+            //todo:需要逻辑删除
             var db = new YSLContext();
             try
             {
@@ -162,46 +163,23 @@ namespace YSL.Controllers.Sys
             return ResultToJson.ToSuccess();
         }
         /// <summary>
-        /// 为一个账户增加一个角色
+        /// 为一个账户更新角色（先都删掉，再新增）
         /// </summary>
         /// <param name="roleId"></param>
         /// <param name="funcId"></param>
         /// <returns></returns>
-        public JsonResult AddAccountRole(sys_account_role obj)
-        {
-            obj.id = Guid.NewGuid().ToString("N");
-            var db = new YSLContext();
-            try
-            {
-                db.sys_account_role.Add(obj);
-                db.SaveChanges();
-            }
-            catch
-            {
-                return ResultToJson.ToError("为一个账户增加一个角色失败");
-            }
-            finally
-            {
-                db.Dispose();
-            }
-            return ResultToJson.ToSuccess();
-        }
-        /// <summary>
-        /// 为一个账户删除一个角色；物理删除
-        /// </summary>
-        /// <param name="roleId"></param>
-        /// <param name="funcId"></param>
-        /// <returns></returns>
-        public JsonResult DelRoleFunc(sys_account_role obj)
+        public JsonResult UpdateAccountRole([FromBody] JObject form)
         {
             var db = new YSLContext();
+            List<sys_account_role> ar = form["account_role"].ToObject<List<sys_account_role>>();
+            ar.ForEach(m => { m.id = Guid.NewGuid().ToString("N"); });
             try
             {
-                db.sys_account_role.Attach(obj);
-                db.sys_account_role.Remove(obj);
+                db.Database.ExecuteSqlCommand("delete from sys_account_role where account_id = {0}", form["account_id"].ToString());
+                db.sys_account_role.AddRange(ar);
                 db.SaveChanges();
             }
-            catch
+            catch(Exception ex)
             {
                 return ResultToJson.ToError("为一个账户删除一个角色失败");
             }
@@ -210,6 +188,33 @@ namespace YSL.Controllers.Sys
                 db.Dispose();
             }
             return ResultToJson.ToSuccess();
+        }
+        /// <summary>
+        /// 获取一个账户所拥有的角色
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public JsonResult GetAccountRole([FromBody]sys_account obj)
+        {
+            var db = new YSLContext();
+            List<sys_role> roles;
+            try
+            {
+                var linq = from v in db.sys_role
+                join r in db.sys_account_role on v.id equals r.role_id
+                where r.account_id == obj.id
+                select v;
+                roles = linq.ToList();
+            }
+            catch
+            {
+                return ResultToJson.ToError("获取一个账户所拥有的角色失败");
+            }
+            finally
+            {
+                db.Dispose();
+            }
+            return ResultToJson.ToSuccess(roles);
         }
     }
 }
