@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using YSL.Model;
 using YSL.Common;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 
 namespace YSL.Controllers.Sys
 {
@@ -35,23 +36,32 @@ namespace YSL.Controllers.Sys
             return result;
         }
         /// <summary>
-        /// 为一个角色增加一个权限
+        /// 更新一个角色的权限
         /// </summary>
         /// <param name="roleId"></param>
         /// <param name="funcId"></param>
         /// <returns></returns>
-        public JsonResult AddRoleFunc([FromBody]sys_role_func obj)
+        public JsonResult AddRoleFunc([FromBody]JObject form)
         {
-            obj.id = Guid.NewGuid().ToString("N");
+            var dels = form["del"].ToObject<List<sys_role_func>>();
+            var adds = form["add"].ToObject<List<sys_role_func>>();
             var db = new YSLContext();
+            adds.ForEach(m => {
+                m.id = Guid.NewGuid().ToString("N");
+                db.sys_role_func.Add(m);
+            });
+            dels.ForEach(m =>
+            {
+                db.sys_role_func.Attach(m);
+                db.sys_role_func.Remove(m);
+            });
             try
             {
-                db.sys_role_func.Add(obj);
                 db.SaveChanges();
             }
             catch
             {
-                return ResultToJson.ToError("为一个角色增加一个权限失败");
+                return ResultToJson.ToError("更新一个角色的权限失败");
             }
             finally
             {
@@ -85,31 +95,6 @@ namespace YSL.Controllers.Sys
                 db.Dispose();
             }
             return ResultToJson.ToSuccess(roles);
-        }
-        /// <summary>
-        /// 为一个角色删除一个权限，物理删除
-        /// </summary>
-        /// <param name="roleId"></param>
-        /// <param name="funcId"></param>
-        /// <returns></returns>
-        public JsonResult DelRoleFunc([FromBody]sys_role_func obj)
-        {
-            var db = new YSLContext();
-            try
-            {
-                db.sys_role_func.Attach(obj);
-                db.sys_role_func.Remove(obj);
-                db.SaveChanges();
-            }
-            catch
-            {
-                return ResultToJson.ToError("为一个角色删除一个权限失败");
-            }
-            finally
-            {
-                db.Dispose();
-            }
-            return ResultToJson.ToSuccess();
         }
         /// <summary>
         /// 新增或修改角色
