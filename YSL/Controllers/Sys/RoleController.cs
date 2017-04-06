@@ -60,6 +60,33 @@ namespace YSL.Controllers.Sys
             return ResultToJson.ToSuccess();
         }
         /// <summary>
+        /// 获取一个角色的所有权限
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public JsonResult GetRoleFunc([FromBody]sys_role obj)
+        {
+            var db = new YSLContext();
+            List<sys_func> roles;
+            try
+            {
+                var linq = from v in db.sys_func
+                           join r in db.sys_role_func on v.id equals r.func_id
+                           where r.role_id == obj.id
+                           select v;
+                roles = linq.ToList();
+            }
+            catch
+            {
+                return ResultToJson.ToError("获取一个账户所拥有的角色失败");
+            }
+            finally
+            {
+                db.Dispose();
+            }
+            return ResultToJson.ToSuccess(roles);
+        }
+        /// <summary>
         /// 为一个角色删除一个权限，物理删除
         /// </summary>
         /// <param name="roleId"></param>
