@@ -41,22 +41,17 @@ namespace YSL.Controllers.Sys
         /// <param name="roleId"></param>
         /// <param name="funcId"></param>
         /// <returns></returns>
-        public JsonResult AddRoleFunc([FromBody]JObject form)
+        public JsonResult SaveRoleFunc([FromBody]JObject form)
         {
-            var dels = form["del"].ToObject<List<sys_role_func>>();
-            var adds = form["add"].ToObject<List<sys_role_func>>();
+            var tars = form["role_func"].ToObject<List<sys_role_func>>();
             var db = new YSLContext();
-            adds.ForEach(m => {
+            tars.ForEach(m => {
                 m.id = Guid.NewGuid().ToString("N");
                 db.sys_role_func.Add(m);
             });
-            dels.ForEach(m =>
-            {
-                db.sys_role_func.Attach(m);
-                db.sys_role_func.Remove(m);
-            });
             try
             {
+                db.Database.ExecuteSqlCommand("delete from sys_role_func where role_id = {0}", form["role_id"].ToString());
                 db.SaveChanges();
             }
             catch
