@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using YSL.Model;
 using Microsoft.EntityFrameworkCore;
 using YSL.Common;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace YSL.Controllers.Hrm
 {
@@ -14,6 +15,69 @@ namespace YSL.Controllers.Hrm
     /// </summary>
     public class DepartmentController : Controller
     {
+        private IMemoryCache cache;
+        public DepartmentController(IMemoryCache memoryCache)
+        {
+            this.cache = memoryCache;
+        }
+        /// <summary>
+        /// 生成部门的层级结构的递归函数
+        /// </summary>
+        /// <param name="curNode"></param>
+        /// <param name="allNode"></param>
+        private void InitSubNode(hrm_department curNode, List<hrm_department> allNode)
+        {
+            foreach (var n in allNode)
+            {
+                if (n.pid == curNode.id)
+                {
+                    if (curNode.children == null)
+                    {
+                        curNode.children = new List<hrm_department>();
+                    }
+                    curNode.children.Add(n);
+                    InitSubNode(n, allNode);//todo:这样写递归，会是一个坑；
+                }
+            }
+        }
+        /// <summary>
+        /// 获取所有系统权限
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult GetAllDepartmentTree()
+        {
+            List<hrm_department> tree;
+            if (this.cache.TryGetValue<List<hrm_department>>("Func_Tree", out tree))
+            {
+                return ResultToJson.ToSuccess(tree);
+            }
+            List<hrm_department> data;
+            var db = new YSLContext();
+            try
+            {
+                data = db.hrm_department.OrderBy(m => m.order_num).ToList();
+            }
+            catch
+            {
+                return ResultToJson.ToError("获取所有系统权限异常！");
+            }
+            finally
+            {
+                db.Dispose();
+            }
+            tree = new List<hrm_department>();
+            foreach (var item in data)
+            {
+                if (string.IsNullOrEmpty(item.pid))
+                {
+                    tree.Add(item);
+                    InitSubNode(item, data);
+                }
+            }
+            cache.Set("Func_Tree", tree);
+            var result = ResultToJson.ToSuccess(tree);
+            return result;
+        }
         /// <summary>
         /// 新增或修改部门信息
         /// </summary>

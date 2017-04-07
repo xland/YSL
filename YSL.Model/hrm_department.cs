@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace YSL.Model
 {
@@ -28,7 +30,7 @@ namespace YSL.Model
         /// <summary>
         /// 部门排序
         /// </summary>
-        public int department_order
+        public int order_num
         {
             get;
             set;
@@ -58,9 +60,31 @@ namespace YSL.Model
             set;
         }
         /// <summary>
-        /// 部门负责人
+        /// 部门负责人帐号ID
         /// </summary>
-        public string department_leader_account_id
+        public string leader_account_id
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// 部门负责人ID
+        /// </summary>
+        public string leader_employee_id
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// 部门负责人姓名（冗余数据）
+        /// </summary>
+        public string leader_name
+        {
+            get;
+            set;
+        }
+        [NotMapped]
+        public List<hrm_department> children
         {
             get;
             set;

@@ -6,7 +6,7 @@ namespace YSL.Common
 {
     public class PageDataRequestModel
     {
-        private int _page_size = 38;
+        private int _page_size = 28;
         private int _page_index = 0;
         /// <summary>
         /// 起始页，默认值为0
@@ -23,7 +23,7 @@ namespace YSL.Common
             }
         }
         /// <summary>
-        /// 页面行数，默认值为38
+        /// 页面行数，默认值为28
         /// </summary>
         public int page_size
         {

@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace YSL.Model
 {
@@ -20,7 +22,7 @@ namespace YSL.Model
         /// <summary>
         /// 员工姓名
         /// </summary>
-        public string emp_name
+        public string employee_name
         {
             get;
             set;
