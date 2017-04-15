@@ -47,7 +47,7 @@ namespace YSL.Controllers.Hrm
         public IActionResult GetAllDepartmentTree()
         {
             List<hrm_department> tree;
-            if (this.cache.TryGetValue<List<hrm_department>>("Func_Tree", out tree))
+            if (this.cache.TryGetValue("Department_Tree", out tree))
             {
                 return ResultToJson.ToSuccess(tree);
             }
@@ -74,7 +74,7 @@ namespace YSL.Controllers.Hrm
                     InitSubNode(item, data);
                 }
             }
-            cache.Set("Func_Tree", tree);
+            cache.Set("Department_Tree", tree);
             var result = ResultToJson.ToSuccess(tree);
             return result;
         }
@@ -83,7 +83,7 @@ namespace YSL.Controllers.Hrm
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public IActionResult SaveDepartment(hrm_department obj)
+        public IActionResult SaveDepartment([FromBody]hrm_department obj)
         {
             var addFlag = false;
             if (string.IsNullOrEmpty(obj.id))
@@ -105,6 +105,7 @@ namespace YSL.Controllers.Hrm
             {
                 db.Dispose();
             }
+            cache.Remove("Department_Tree");
             return ResultToJson.ToSuccess();
         }
         /// <summary>
@@ -112,9 +113,8 @@ namespace YSL.Controllers.Hrm
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public IActionResult DelDepartment(string id)
+        public IActionResult DelDepartment([FromBody] hrm_department target)
         {
-            var target = new hrm_department() { id = id };
             var db = new YSLContext();
             try
             {
@@ -130,6 +130,7 @@ namespace YSL.Controllers.Hrm
             {
                 db.Dispose();
             }
+            cache.Remove("Department_Tree");
             return ResultToJson.ToSuccess();
         }
         /// <summary>
@@ -137,13 +138,13 @@ namespace YSL.Controllers.Hrm
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public IActionResult GetEmployeeByDepartmentId(string id)
+        public IActionResult GetEmployeeByDepartmentId([FromBody]hrm_department target)
         {
             var db = new YSLContext();
             List<hrm_employee> result;
             try
             {
-                var ids = db.hrm_department_employee.Where(m => m.department_id == id).Select(m => m.employee_id);
+                var ids = db.hrm_department_employee.Where(m => m.department_id == target.id).Select(m => m.employee_id);
                 var es = db.hrm_employee.Where(m => ids.Contains(m.id)).ToList();
                 result = es;
             }

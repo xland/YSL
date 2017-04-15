@@ -51,7 +51,7 @@ namespace YSL
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseCors(builder =>builder.WithOrigins("http://localhost:8000", "http://www.your_domain.com").AllowAnyHeader().AllowAnyMethod());
+            app.UseCors(builder =>builder.WithOrigins("http://localhost:8000", "http://localhost:8081").AllowAnyHeader().AllowAnyMethod());
 
 
             app.UseStaticFiles();
