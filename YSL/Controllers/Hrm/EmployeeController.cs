@@ -36,7 +36,7 @@ namespace YSL.Controllers.Hrm
                 data = query.Skip(page.page_index * page.page_size)
                     .Take(page.page_size).ToList();
             }
-            catch
+            catch (Exception ex)
             {
                 return ResultToJson.ToError("获取所有系统权限异常！");
             }
@@ -59,6 +59,7 @@ namespace YSL.Controllers.Hrm
             if (string.IsNullOrEmpty(employee.id))
             {
                 employee.id = Guid.NewGuid().ToString("N");
+                employee.add_time = DateTime.Now;
                 addFlag = true;
             }
             var db = new YSLContext();
@@ -67,7 +68,7 @@ namespace YSL.Controllers.Hrm
                 db.Entry(employee).State = addFlag ? EntityState.Added : EntityState.Modified;
                 db.SaveChanges();
             }
-            catch
+            catch(Exception ex)
             {
                 return ResultToJson.ToError("新增或修改员工信息失败！");
             }
@@ -91,7 +92,7 @@ namespace YSL.Controllers.Hrm
                 db.hrm_employee.Remove(target);
                 db.SaveChanges();
             }
-            catch
+            catch (Exception ex)
             {
                 return ResultToJson.ToError("删除账户失败！");
             }
@@ -114,7 +115,7 @@ namespace YSL.Controllers.Hrm
             {
                 result = db.hrm_employee.Where(m => m.id == target.id).FirstOrDefault();
             }
-            catch
+            catch (Exception ex)
             {
                 return ResultToJson.ToError("删除账户失败！");
             }

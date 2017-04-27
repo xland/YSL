@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using YSL.Model;
 using Microsoft.EntityFrameworkCore;
 using YSL.Common;
+using Newtonsoft.Json.Linq;
 
 namespace YSL.Controllers.Hrm
 {
@@ -15,11 +16,43 @@ namespace YSL.Controllers.Hrm
     public class TrainController : Controller
     {
         /// <summary>
+        /// 获取培训列表
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public JsonResult GetTrainByPage([FromBody]JObject form)
+        {
+            var page = form["pager"].ToObject<PageDataRequestModel>();
+            var searchTxt = form["searchTxt"] == null ? "" : form["searchTxt"].ToString();
+            List<hrm_train> data;
+            int rowCount = 0;
+            var db = new YSLContext();
+            try
+            {
+                var query = db.hrm_train
+                    .Where(m => m.train_title.Contains(searchTxt))
+                    .OrderByDescending(m => m.begin_time);
+                rowCount = query.Count();
+                data = query.Skip(page.page_index * page.page_size)
+                    .Take(page.page_size).ToList();
+            }
+            catch (Exception ex)
+            {
+                return ResultToJson.ToError("获取培训列表异常！");
+            }
+            finally
+            {
+                db.Dispose();
+            }
+            var result = ResultToJson.ToSuccess(rowCount, data);
+            return result;
+        }
+        /// <summary>
         /// 新增或修改培训项目
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public IActionResult SaveEmployee(hrm_train train)
+        public IActionResult SaveEmployee([FromBody]hrm_train train)
         {
             var addFlag = false;
             if (string.IsNullOrEmpty(train.id))
@@ -33,7 +66,7 @@ namespace YSL.Controllers.Hrm
                 db.Entry(train).State = addFlag ? EntityState.Added : EntityState.Modified;
                 db.SaveChanges();
             }
-            catch
+            catch(Exception ex)
             {
                 return ResultToJson.ToError("新增或修改培训项目失败！");
             }
@@ -48,9 +81,8 @@ namespace YSL.Controllers.Hrm
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public IActionResult DelAccount(string id)
+        public IActionResult DelAccount([FromBody]hrm_train target)
         {
-            var target = new hrm_train() { id = id };
             var db = new YSLContext();
             try
             {
@@ -58,7 +90,7 @@ namespace YSL.Controllers.Hrm
                 db.hrm_train.Remove(target);
                 db.SaveChanges();
             }
-            catch
+            catch (Exception ex)
             {
                 return ResultToJson.ToError("删除账户失败！");
             }

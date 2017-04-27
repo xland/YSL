@@ -41,9 +41,9 @@ namespace YSL.Controllers.Sys
                     });
                 data = query.ToList();
             }
-            catch
+            catch (Exception ex)
             {
-                return ResultToJson.ToError("获取所有系统权限异常！");
+                return ResultToJson.ToError("按页获取系统权限异常！");
             }
             finally
             {
@@ -69,7 +69,7 @@ namespace YSL.Controllers.Sys
                 var roleIds = db.sys_account_role.Where(m => m.account_id == cur_user.id).Select(m => m.role_id);
                 funcIds = db.sys_role_func.Where(m => roleIds.Contains(m.role_id)).Select(m => m.func_id).ToList();
             }
-            catch
+            catch (Exception ex)
             {
                 return ResultToJson.ToError("用户名或密码错误！");
             }
@@ -103,7 +103,7 @@ namespace YSL.Controllers.Sys
                 db.Entry(account).State = addFlag ? EntityState.Added : EntityState.Modified;
                 db.SaveChanges();
             }
-            catch
+            catch (Exception ex)
             {
                 return ResultToJson.ToError("新增或修改账户失败！");
             }
@@ -127,7 +127,7 @@ namespace YSL.Controllers.Sys
                 var count = db.sys_account.Where(m => m.account_name == target.account_name).Count();
                 result = count > 0;
             }
-            catch
+            catch (Exception ex)
             {
                 return ResultToJson.ToError("查找系统中是否已存在相同的账户失败！");
             }
@@ -152,7 +152,7 @@ namespace YSL.Controllers.Sys
                 db.sys_account.Remove(target);
                 db.SaveChanges();
             }
-            catch
+            catch (Exception ex)
             {
                 return ResultToJson.ToError("删除账户失败！");
             }
@@ -206,7 +206,7 @@ namespace YSL.Controllers.Sys
                 select v;
                 roles = linq.ToList();
             }
-            catch
+            catch (Exception ex)
             {
                 return ResultToJson.ToError("获取一个账户所拥有的角色失败");
             }

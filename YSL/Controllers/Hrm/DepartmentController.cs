@@ -57,7 +57,7 @@ namespace YSL.Controllers.Hrm
             {
                 data = db.hrm_department.OrderBy(m => m.order_num).ToList();
             }
-            catch
+            catch(Exception ex)
             {
                 return ResultToJson.ToError("获取所有系统权限异常！");
             }
@@ -97,7 +97,7 @@ namespace YSL.Controllers.Hrm
                 db.Entry(obj).State = addFlag ? EntityState.Added : EntityState.Modified;
                 db.SaveChanges();
             }
-            catch
+            catch (Exception ex)
             {
                 return ResultToJson.ToError("新增或修改部门信息失败！");
             }
@@ -122,7 +122,7 @@ namespace YSL.Controllers.Hrm
                 db.hrm_department.Remove(target);
                 db.SaveChanges();
             }
-            catch
+            catch (Exception ex)
             {
                 return ResultToJson.ToError("删除部门失败！");
             }

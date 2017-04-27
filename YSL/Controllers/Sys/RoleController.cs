@@ -24,7 +24,7 @@ namespace YSL.Controllers.Sys
             {
                 roles = db.sys_role.OrderBy(m=>m.order_num).ToList();
             }
-            catch
+            catch (Exception ex)
             {
                 return ResultToJson.ToError("获取系统所有角色错误！");
             }
@@ -54,7 +54,7 @@ namespace YSL.Controllers.Sys
                 db.Database.ExecuteSqlCommand("delete from sys_role_func where role_id = {0}", form["role_id"].ToString());
                 db.SaveChanges();
             }
-            catch
+            catch (Exception ex)
             {
                 return ResultToJson.ToError("更新一个角色的权限失败");
             }
@@ -81,7 +81,7 @@ namespace YSL.Controllers.Sys
                            select v;
                 roles = linq.ToList();
             }
-            catch
+            catch (Exception ex)
             {
                 return ResultToJson.ToError("获取一个账户所拥有的角色失败");
             }
@@ -110,7 +110,7 @@ namespace YSL.Controllers.Sys
                 db.Entry(role).State = addFlag ? EntityState.Added : EntityState.Modified;
                 db.SaveChanges();
             }
-            catch
+            catch (Exception ex)
             {
                 return ResultToJson.ToError("新增或修改角色失败！");
             }
@@ -134,7 +134,7 @@ namespace YSL.Controllers.Sys
                 var count = db.sys_role.Where(m => m.role_name == target.role_name).Count();
                 result = count > 0;
             }
-            catch
+            catch (Exception ex)
             {
                 return ResultToJson.ToError("查找系统中是否已存在相同的角色失败！");
             }
@@ -158,7 +158,7 @@ namespace YSL.Controllers.Sys
                 db.sys_role.Remove(target);
                 db.SaveChanges();
             }
-            catch
+            catch (Exception ex)
             {
                 return ResultToJson.ToError("删除角色失败！");
             }

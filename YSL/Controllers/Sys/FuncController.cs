@@ -77,7 +77,7 @@ namespace YSL.Controllers.Sys
             {
                 data = db.sys_func.OrderBy(m=> m.order_num).ToList();
             }
-            catch
+            catch (Exception ex)
             {
                 return ResultToJson.ToError("获取所有系统权限异常！");
             }
@@ -117,7 +117,7 @@ namespace YSL.Controllers.Sys
                 db.Entry(obj).State = addFlag ? EntityState.Added : EntityState.Modified;
                 db.SaveChanges();
             }
-            catch
+            catch (Exception ex)
             {
                 return ResultToJson.ToError("新增或修改系统权限失败！");
             }
@@ -142,7 +142,7 @@ namespace YSL.Controllers.Sys
                 db.sys_func.Remove(target);
                 db.SaveChanges();
             }
-            catch
+            catch (Exception ex)
             {
                 return ResultToJson.ToError("删除系统权限失败！");
             }
