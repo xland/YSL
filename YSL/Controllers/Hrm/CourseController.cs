@@ -11,34 +11,34 @@ using Newtonsoft.Json.Linq;
 namespace YSL.Controllers.Hrm
 {
     /// <summary>
-    /// 培训控制器
+    /// 课程控制器
     /// </summary>
-    public class TrainController : Controller
+    public class CourseController : Controller
     {
         /// <summary>
-        /// 获取培训列表
+        /// 获取课程列表
         /// </summary>
         /// <param name="page"></param>
         /// <returns></returns>
-        public JsonResult GetTrainByPage([FromBody]JObject form)
+        public JsonResult GetCourseByPage([FromBody]JObject form)
         {
             var page = form["pager"].ToObject<PageDataRequestModel>();
             var searchTxt = form["searchTxt"] == null ? "" : form["searchTxt"].ToString();
-            List<hrm_train> data;
+            List<hrm_course> data;
             int rowCount = 0;
             var db = new YSLContext();
             try
             {
-                var query = db.hrm_train
-                    .Where(m => m.train_title.Contains(searchTxt))
-                    .OrderByDescending(m => m.begin_time);
+                var query = db.hrm_course
+                    .Where(m => m.course_name.Contains(searchTxt))
+                    .OrderByDescending(m => m.level);
                 rowCount = query.Count();
                 data = query.Skip(page.page_index * page.page_size)
                     .Take(page.page_size).ToList();
             }
             catch (Exception ex)
             {
-                return ResultToJson.ToError("获取培训列表异常！");
+                return ResultToJson.ToError("获取课程列表异常！");
             }
             finally
             {
@@ -48,27 +48,27 @@ namespace YSL.Controllers.Hrm
             return result;
         }
         /// <summary>
-        /// 新增或修改培训项目
+        /// 新增或修改课程项目
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public IActionResult SaveTrain([FromBody]hrm_train train)
+        public IActionResult SaveCourse([FromBody]hrm_course course)
         {
             var addFlag = false;
-            if (string.IsNullOrEmpty(train.id))
+            if (string.IsNullOrEmpty(course.id))
             {
-                train.id = Guid.NewGuid().ToString("N");
+                course.id = Guid.NewGuid().ToString("N");
                 addFlag = true;
             }
             var db = new YSLContext();
             try
             {
-                db.Entry(train).State = addFlag ? EntityState.Added : EntityState.Modified;
+                db.Entry(course).State = addFlag ? EntityState.Added : EntityState.Modified;
                 db.SaveChanges();
             }
             catch(Exception ex)
             {
-                return ResultToJson.ToError("新增或修改培训项目失败！");
+                return ResultToJson.ToError("新增或修改课程项目失败！");
             }
             finally
             {
@@ -77,22 +77,22 @@ namespace YSL.Controllers.Hrm
             return ResultToJson.ToSuccess();
         }
         /// <summary>
-        /// 删除一个培训项目；物理删除
+        /// 删除一个课程；物理删除
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public IActionResult DelTrain([FromBody]hrm_train target)
+        public IActionResult DelCourse([FromBody]hrm_course target)
         {
             var db = new YSLContext();
             try
             {
-                db.hrm_train.Attach(target);
-                db.hrm_train.Remove(target);
+                db.hrm_course.Attach(target);
+                db.hrm_course.Remove(target);
                 db.SaveChanges();
             }
             catch (Exception ex)
             {
-                return ResultToJson.ToError("删除培训项目失败！");
+                return ResultToJson.ToError("删除课程失败！");
             }
             finally
             {

@@ -90,6 +90,14 @@ namespace YSL.Model
             get;
             set;
         }
+        ///// <summary>
+        ///// 员工培训
+        ///// </summary>
+        public DbSet<hrm_course> hrm_course
+        {
+            get;
+            set;
+        }
         #endregion
     }
 
