@@ -34,17 +34,17 @@ namespace YSL.Model
             set;
         }
         /// <summary>
-        /// 开始时间
+        /// 开始日期
         /// </summary>
-        public string begin_time
+        public DateTime begin_time
         {
             get;
             set;
         }
         /// <summary>
-        /// 结束时间
+        /// 结束日期
         /// </summary>
-        public string end_time
+        public DateTime end_time
         {
             get;
             set;
